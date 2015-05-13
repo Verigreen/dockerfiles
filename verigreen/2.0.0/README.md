@@ -1,5 +1,3 @@
-# Verigreen
-
 Verigreen on Docker
 ===================
 
