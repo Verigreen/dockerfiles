@@ -139,6 +139,7 @@ function extract_config_values {
 	fi
 
 	# Ensure that `~/.ssh/known_hosts` has the correct permissions.
+	chown root:root $SSH_KNOWN_HOSTS
 	chmod 600 $SSH_KNOWN_HOSTS
 
 	# Remove `/.git` if present so that we can cleanly clone to the correct path.
@@ -179,7 +180,7 @@ function verify_remote_repo_connection {
 function verify_required_assets {
 	# Verify that there is an `~/.ssh` dir in the container. This is required.
 	if [ ! -d "$SSH_DIR" ]; then
-		echo "ERROR: please map a volume from host to $SSH_DIR in your container."
+		echo "ERROR: $SSH_DIR should exist to hold the ssh configuration and keys."
 		exit -1
 	fi
 
@@ -195,6 +196,9 @@ function verify_required_assets {
 		exit -1
 	fi
 
+	# Let's do a bit of brute force and change permissions to all files within `~/.ssh`
+	chown -R root:root $SSH_DIR/*
+	chmod -R 600 $SSH_DIR/*
 
 	# Verify that the `$VG_HOME/config.properties` file is present.
 	if [ ! -e "$VG_HOME/config.properties" ]; then
@@ -213,6 +217,11 @@ function verify_required_assets {
 # Verifies all environment variables and configuration needed to run this script and Verigreen.
 function verify_required_environment {
 
+	if [ -z "$VG_SSH" ]; then
+		echo "ERROR: VG_SSH environment variable is not set."
+		exit -1
+	fi
+
 	if [ -z "$ROOT_SSH_DIR" ]; then
 		echo "ERROR: ROOT_SSH_DIR environment variable is not set."
 		exit -1
@@ -229,6 +238,18 @@ function verify_required_environment {
 	fi
 }
 
+function copy_ssh_assets {
+	# Verify that there is an `~/.ssh` dir in the container. This is required.
+	if [ ! -d "$VG_SSH" ]; then
+		echo "ERROR: $VG_SSH should be mapped to the container in order to copy the ssh configuration and assets."
+		exit -1
+	fi
+
+	cp -Rf $VG_SSH/* $ROOT_SSH_DIR
+
+	# TODO: consider doing a recursive chmod in the future.
+}
+
 # Verify that the environment is suitable for running this script and Verigreen.
 verify_required_environment
 
@@ -237,6 +258,8 @@ verify_required_environment
 SSH_DIR="$ROOT_SSH_DIR"
 SSH_CONFIG_FILE="$SSH_DIR/config"
 SSH_KNOWN_HOSTS="$SSH_DIR/known_hosts"
+
+copy_ssh_assets
 
 # Verify that all required assets are present, if not, then fail.
 verify_required_assets

@@ -2,7 +2,7 @@
 # ==============================
 # ## Purpose
 # 	- Builds an image for the Verigreen Collector App
-# ## Author(s):
+# ## Maintainer(s):
 #	- Ricardo Quintana https://github.com/rqc
 #
 
@@ -28,6 +28,7 @@ ENV	VERIGREEN_RELEASE="verigreen-2.0.1"
 ENV APP_DIR="/app" \
 	VG_HOME="/vg" \
 	VG_REPO="/repo" \
+	VG_SSH="/ssh" \
 	ROOT_SSH_DIR="/root/.ssh" \
 	TOMCAT_WEBAPPS_DIR="/usr/local/tomcat/webapps" \
 	VG_DOWNLOAD_URL="https://github.com/Verigreen/verigreen/releases/download/$VERIGREEN_RELEASE/verigreen-collector.war"
@@ -38,6 +39,8 @@ ENV APP_DIR="/app" \
 # Finally, cleanup and prepare startup scripts.
 RUN	mkdir -p $VG_HOME && \
 	mkdir -p $APP_DIR && \
+	mkdir -p $VG_SSH && \
+	mkdir -p $ROOT_SSH_DIR && \
 	rm -rf $TOMCAT_WEBAPPS_DIR/ROOT && \
 	curl -SL "$VG_DOWNLOAD_URL" -o "$TOMCAT_WEBAPPS_DIR/ROOT.war"
 
