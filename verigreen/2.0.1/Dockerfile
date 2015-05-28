@@ -19,6 +19,7 @@ RUN apt-get update && apt-get install -y \
 										tar \
 										bash \
 										host \
+										gawk \
 										&& \
 										apt-get clean
 
