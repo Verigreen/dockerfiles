@@ -113,7 +113,7 @@ function download_git_remote_ssh_key {
 			echo "${VG_ERROR} could not retrieve ssh key from $ip_address_port."
 			exit -1
 		else
-			echo "{VG_SUCCESS} Retrieved ssh key from $ip_address_port and stored it in $SSH_KNOWN_HOSTS."
+			echo "${VG_SUCCESS} Retrieved ssh key from $ip_address_port and stored it in $SSH_KNOWN_HOSTS."
 		fi
 
 	done
@@ -288,10 +288,6 @@ function copy_ssh_assets {
 }
 
 function setup_output_messages {
-	NC="\033[0m"
-	RED="\033[0;31m"
-	YELLOW="\033[1;33m"
-	GREEN="\033[1;32m"
 	VG_ERROR="$(tput setaf 1)VG DOCKER-ENTRYPOINT ERROR: $(tput setaf 7)"
 	VG_WARNING="$(tput setaf 3)VG DOCKER-ENTRYPOINT WARNING: $(tput setaf 7)"
 	VG_SUCCESS="$(tput setaf 2)VG DOCKER-ENTRYPOINT SUCCESS: $(tput setaf 7)"
