@@ -68,7 +68,8 @@ function download_git_remote_ssh_key {
 	# Determine if our domain is an IP address or a FQDN hostname.
 	# Regular expression based on these restrictions: http://en.wikipedia.org/wiki/Hostname#Restrictions_on_valid_host_names
 	# Most restrictions enforced.
-	temp_domain=$(echo "$domain" | awk '/^([A-Za-z0-9]+([\-]{1}[A-Za-z0-9]+)*[A-Za-z0-9]*)([\.]{1}[A-Za-z0-9]+([\-]{1}[A-Za-z0-9]+)*[A-Za-z0-9]*)+([\.]{1}[A-Za-z]{2,3}){1}$/ {print $1}')
+	# Domains that are just one label are not supported (e.g. node1, verigreen).
+	temp_domain=$(echo "$domain" | awk '/^([A-Za-z0-9]+([\-]{1}[A-Za-z0-9]+)*[A-Za-z0-9]*)([\.]{1}[A-Za-z0-9]+([\-]{1}[A-Za-z0-9]+)*[A-Za-z0-9]+)*$/ {print $1}')
 
 	if [ ! -z "$temp_domain" ]; then
 		# If it is a hostname with a domain name that is passed, retrieve the ip addresses.
