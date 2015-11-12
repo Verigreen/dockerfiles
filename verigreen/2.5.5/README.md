@@ -1,9 +1,25 @@
+#*******************************************************************************
+# Copyright 2015 Hewlett Packard Enterprise Development Company, L.P.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#        http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and limitations under the License.
+#*******************************************************************************
+
 Verigreen on Docker
 ===================
 
 ## Usage
 
 To run a **Verigreen Collector** container issue the following command from the command line:
+
+The collector can be run as a daemon. Please see below service script, located within the Verigreen code-base:
+https://github.com/Verigreen/verigreen/blob/master/utils/service-script/verigreen
 
 ```
 docker run -it -v /path/to/ssh/assets:/ssh -v /path/to/verigreen/config:/vg -p 8085:8080 verigreen/verigreen
