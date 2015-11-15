@@ -67,8 +67,7 @@ WORKDIR $APP_DIR
 RUN chmod +x docker-entrypoint.sh
 
 # add a tomcat setenv.sh file with VG_HOME parameter
-#RUN echo "export CATALINA_OPTS=\"-Denv.VG_HOME=/vg\"" > /usr/local/tomcat/bin/setenv.sh
-RUN echo "export VG_HOME=/vg" > /usr/local/tomcat/bin/setenv.sh
+RUN echo "export CATALINA_OPTS=\"-Denv.VG_HOME=/vg\"" > /usr/local/tomcat/bin/setenv.sh
 
 # Run Verigreen using deployment script `docker-entrypoint.sh`.
 # Default Verigreen port is `8080` and is exposed by parent tomcat image.
