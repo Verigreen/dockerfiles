@@ -44,7 +44,7 @@ ENV APP_DIR="/app" \
 	VG_SSH="/ssh" \
 	ROOT_SSH_DIR="/root/.ssh" \
 	TOMCAT_WEBAPPS_DIR="/usr/local/tomcat/webapps" \
-	VG_DOWNLOAD_URL="https://github.com/Verigreen/verigreen/releases/download/${VERIGREEN_RELEASE}/verigreen-collector.war"
+	VG_DOWNLOAD_URL="https://github.com/Verigreen/verigreen/releases/download/$VERIGREEN_RELEASE/verigreen-collector.war"
 
 # Create directories for Verigreen
 # Download the release source code for verigreen (from Github)
@@ -67,7 +67,8 @@ WORKDIR $APP_DIR
 RUN chmod +x docker-entrypoint.sh
 
 # add a tomcat setenv.sh file with VG_HOME parameter
-RUN echo "export CATALINA_OPTS=\"-Denv.VG_HOME=/vg\"" > /usr/local/tomcat/bin/setenv.sh
+#RUN echo "export CATALINA_OPTS=\"-Denv.VG_HOME=/vg\"" > /usr/local/tomcat/bin/setenv.sh
+RUN echo "export VG_HOME=/vg" > /usr/local/tomcat/bin/setenv.sh
 
 # Run Verigreen using deployment script `docker-entrypoint.sh`.
 # Default Verigreen port is `8080` and is exposed by parent tomcat image.
