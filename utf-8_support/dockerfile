@@ -1,0 +1,19 @@
+FROM verigreen/vg-collector:2.5.5
+MAINTAINER eedevops team eedevops@hpe.com
+
+ENV TERM xterm
+# configure proxy, if needed!
+
+RUN apt-get install -y apt-utils
+RUN apt-get install -y locales-all locales
+
+RUN locale-gen en_US en_US.UTF-8
+RUN dpkg-reconfigure locales
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+
+
+# Run Verigreen using deployment script `docker-entrypoint.sh`.
+# Default Verigreen port is `8080` and is exposed by parent tomcat image.
+CMD ["./docker-entrypoint.sh"]
